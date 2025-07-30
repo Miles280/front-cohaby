@@ -1,0 +1,42 @@
+<div class="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-blue-600 via-purple-600 to-teal-500 p-6">
+    <div class="bg-white rounded-3xl shadow-xl max-w-md w-full p-10">
+        <h2 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">
+            Connexion à votre compte
+        </h2>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <label class="block mb-2 font-semibold text-gray-700" for="email">
+        Email
+      </label>
+
+            <input type="email" id="email" placeholder="votre.email@example.com" formControlName="email" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6" />
+
+            <label class="block mb-2 font-semibold text-gray-700" for="password">
+        Mot de passe
+      </label>
+
+            <div class="flex gap-3 items-center">
+                <input [type]="inputPWType" id="password" placeholder="••••••••" formControlName="password" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-8" />
+                <button type="button" class="text-xl" (click)="togglePW()" title="Afficher le mot de passe">
+          {{ inputPWType === "text" ? "👁️" : "🔒" }}
+        </button>
+            </div>
+
+            <div *ngIf="isLoading" class="text-center mb-4">Chargement...</div>
+
+            <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition" [disabled]="isLoading">
+        Se connecter
+      </button>
+
+            <p *ngIf="apiError" class="text-red-500 mt-4 text-center">
+                {{ apiError }}
+            </p>
+        </form>
+
+        <p class="mt-6 text-center text-gray-600">
+            Pas encore de compte ?
+            <a routerLink="/register" class="text-blue-600 font-semibold hover:underline">S'inscrire</a
+      >
+    </p>
+  </div>
+</div>
