@@ -2,6 +2,53 @@
   <h2 class="text-2xl font-semibold text-center mb-4">Inscription</h2>
 
   <form (ngSubmit)="onSubmit()" [formGroup]="registerForm" novalidate>
+    <!-- Champs utilisateur déjà existants -->
+
+    <div class="mb-4">
+      <label class="block mb-1">Prénom</label>
+      <input
+        type="text"
+        formControlName="firstname"
+        class="w-full border rounded p-2"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label class="block mb-1">Nom</label>
+      <input
+        type="text"
+        formControlName="lastname"
+        class="w-full border rounded p-2"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label class="block mb-1">Pseudo</label>
+      <input
+        type="text"
+        formControlName="pseudo"
+        class="w-full border rounded p-2"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label class="block mb-1">Genre</label>
+      <select formControlName="gender" class="w-full border rounded p-2">
+        <option value="male">Homme</option>
+        <option value="female">Femme</option>
+        <option value="other">Autre</option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label class="block mb-1">Date de naissance</label>
+      <input
+        type="date"
+        formControlName="birthdate"
+        class="w-full border rounded p-2"
+      />
+    </div>
+
     <div class="mb-4">
       <label class="block mb-1">Email</label>
       <input
@@ -26,6 +73,55 @@
         <option value="coliver">Coliver</option>
         <option value="owner">Propriétaire</option>
       </select>
+    </div>
+
+    <!-- Champs adresse -->
+
+    <h3 class="text-xl font-semibold mb-2 mt-4">Adresse</h3>
+
+    <div class="mb-4">
+      <label class="block mb-1">Rue</label>
+      <input
+        type="text"
+        formControlName="street"
+        class="w-full border rounded p-2"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label class="block mb-1">Ville</label>
+      <input
+        type="text"
+        formControlName="city"
+        class="w-full border rounded p-2"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label class="block mb-1">Code postal</label>
+      <input
+        type="text"
+        formControlName="postalCode"
+        class="w-full border rounded p-2"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label class="block mb-1">Région</label>
+      <input
+        type="text"
+        formControlName="region"
+        class="w-full border rounded p-2"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label class="block mb-1">Pays</label>
+      <input
+        type="text"
+        formControlName="country"
+        class="w-full border rounded p-2"
+      />
     </div>
 
     <button

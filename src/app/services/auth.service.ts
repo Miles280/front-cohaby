@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -8,7 +8,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AuthService {
   private apiUrl = 'http://localhost:8000/api'; // à adapter selon ton URL backend
 
-  // 👇 Initialisation réactive de l'état de connexion
   private loggedIn = new BehaviorSubject<boolean>(
     !!localStorage.getItem('token')
   );
@@ -20,12 +19,20 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
 
-  register(email: string, password: string, role: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, {
-      email,
-      password,
-      role,
-    });
+  // auth.service.ts
+  register(payload: {
+    firstname: string;
+    lastname: string;
+    pseudo: string;
+    gender: string;
+    birthdate: string;
+    email: string;
+    password: string;
+    roles: string[];
+    adress: string; // uri de l'adresse
+  }): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/ld+json' });
+    return this.http.post(`${this.apiUrl}/users`, payload, { headers });
   }
 
   logout(): void {
