@@ -3,11 +3,15 @@ import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { AboutComponent } from './pages/about/about.component';
+import { ListingsComponent } from './pages/listings/listings.component';
+import { ListingDetailsComponent } from './pages/listing-detail/listing-detail.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'listings', component: ListingsComponent },
+  { path: 'listing/:id', component: ListingDetailsComponent },
   { path: '**', redirectTo: '' }, // Route wildcard pour 404
 ];

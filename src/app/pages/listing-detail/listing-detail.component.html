@@ -1,0 +1,35 @@
+<div *ngIf="listing; else loading">
+  <h1>{{ listing.title }}</h1>
+  <p>{{ listing.description }}</p>
+  <p><strong>Prix par nuit :</strong> {{ listing.pricePerNight }} €</p>
+  <p><strong>Capacité max :</strong> {{ listing.maxCapacity }} personnes</p>
+
+  <hr />
+
+  <p><strong>Propriétaire :</strong> {{ listing.owner }}</p>
+  <p><strong>Adresse :</strong> {{ listing.adress }}</p>
+
+  <p><strong>Services :</strong></p>
+  <ul>
+    <li *ngFor="let service of listing.services">{{ service }}</li>
+  </ul>
+
+  <p><strong>Équipements :</strong></p>
+  <ul>
+    <li *ngFor="let equipment of listing.equipments">{{ equipment }}</li>
+  </ul>
+
+  <p><strong>Photos :</strong></p>
+  <ul>
+    <li *ngFor="let picture of listing.pictures">{{ picture }}</li>
+  </ul>
+
+  <p><strong>Réservations :</strong></p>
+  <ul>
+    <li *ngFor="let booking of listing.bookings">{{ booking }}</li>
+  </ul>
+</div>
+
+<ng-template #loading>
+  <p>Chargement des informations...</p>
+</ng-template>

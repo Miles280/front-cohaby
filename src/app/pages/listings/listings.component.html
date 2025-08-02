@@ -1,1 +1,16 @@
-<p>listings works!</p>
+<div *ngIf="listings.length; else loading">
+  <h1>Nos logements disponibles</h1>
+  <div *ngFor="let listing of listings" class="listing-card">
+    <h2>{{ listing.title }}</h2>
+    <p>{{ listing.description }}</p>
+    <p><strong>Prix/nuit :</strong> {{ listing.pricePerNight }} €</p>
+    <p><strong>Capacité :</strong> {{ listing.maxCapacity }} personnes</p>
+
+    <a [routerLink]="['/listing', listing.id]">Voir les détails</a>
+    <hr />
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Chargement des listings...</p>
+</ng-template>
