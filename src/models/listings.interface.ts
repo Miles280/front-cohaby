@@ -1,3 +1,5 @@
+import { Picture } from './picture.interface';
+
 export interface Listing {
   '@context'?: string;
   '@id'?: string;
@@ -11,6 +13,7 @@ export interface Listing {
   services: string[];
   equipments: string[];
   pictures: string[];
+  firstPicture?: Picture;
   bookings: string[];
   adress: string;
 }

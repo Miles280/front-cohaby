@@ -8,13 +8,13 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class ListingService {
-  private env = environment;
   private http = inject(HttpClient);
+  private env = environment;
 
   getAllListings(): Observable<Listing[]> {
-    return this.http.get<any>(`${this.env.apiUrl}/api/listings`).pipe(
-      map((response) => response['member']) // ou 'hydra:member' si ton API renvoie encore ce format
-    );
+    return this.http
+      .get<any>(`${this.env.apiUrl}/api/listings`)
+      .pipe(map((response) => response['member']));
   }
 
   getListingById(id: number): Observable<Listing> {

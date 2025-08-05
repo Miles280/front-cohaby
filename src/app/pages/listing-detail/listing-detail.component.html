@@ -1,35 +1,59 @@
-<div *ngIf="listing; else loading">
-  <h1>{{ listing.title }}</h1>
-  <p>{{ listing.description }}</p>
-  <p><strong>Prix par nuit :</strong> {{ listing.pricePerNight }} €</p>
-  <p><strong>Capacité max :</strong> {{ listing.maxCapacity }} personnes</p>
-
-  <hr />
-
-  <p><strong>Propriétaire :</strong> {{ listing.owner }}</p>
-  <p><strong>Adresse :</strong> {{ listing.adress }}</p>
-
-  <p><strong>Services :</strong></p>
-  <ul>
-    <li *ngFor="let service of listing.services">{{ service }}</li>
-  </ul>
-
-  <p><strong>Équipements :</strong></p>
-  <ul>
-    <li *ngFor="let equipment of listing.equipments">{{ equipment }}</li>
-  </ul>
-
-  <p><strong>Photos :</strong></p>
-  <ul>
-    <li *ngFor="let picture of listing.pictures">{{ picture }}</li>
-  </ul>
-
-  <p><strong>Réservations :</strong></p>
-  <ul>
-    <li *ngFor="let booking of listing.bookings">{{ booking }}</li>
-  </ul>
-</div>
-
-<ng-template #loading>
-  <p>Chargement des informations...</p>
-</ng-template>
+<section class="bg-white py-10 px-6 border-b">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-4xl font-bold text-dark mb-2">{{ listing?.title }}</h1>
+    <p class="text-lg text-grayish mb-4">{{ listing?.description }}</p>
+    <div class="flex flex-wrap gap-4 text-lg text-primary font-semibold">
+      <p>Prix / nuit : {{ listing?.pricePerNight }} €</p>
+      <p>Capacité max : {{ listing?.maxCapacity }} personnes</p>
+    </div>
+  </div>
+</section>
+<section class="bg-light py-8 px-6">
+  <div
+    class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+  >
+    <img
+      *ngFor="let pic of pictures"
+      [src]="pic.url"
+      alt="Photo logement"
+      class="rounded-xl shadow-md object-cover w-full h-60"
+    />
+  </div>
+</section>
+<section class="bg-white py-14 px-6 border-t border-gray-200">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+    <div>
+      <h2 class="text-2xl font-bold text-primary mb-4">Services inclus</h2>
+      <ul class="space-y-3">
+        <li *ngFor="let service of services" class="flex items-start gap-2">
+          <mat-icon>{{ service.icon }}</mat-icon>
+          <div>
+            <p class="font-semibold text-dark">{{ service.name }}</p>
+            <p class="text-sm text-grayish">{{ service.description }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="text-2xl font-bold text-primary mb-4">Équipements</h2>
+      <ul class="space-y-3">
+        <li *ngFor="let equip of equipment" class="flex items-start gap-2">
+          <mat-icon>{{ equip.icon }}</mat-icon>
+          <div>
+            <p class="font-semibold text-dark">{{ equip.name }}</p>
+            <p class="text-sm text-grayish">{{ equip.description }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+<section class="bg-light py-12 px-6 border-t">
+  <div class="max-w-6xl mx-auto text-dark">
+    <p class="mb-2">
+      <strong>Propriétaire :</strong> {{ owner?.firstname }}
+      {{ owner?.lastname }}
+    </p>
+    <p><strong>Adresse :</strong> {{ address?.street }}</p>
+  </div>
+</section>
