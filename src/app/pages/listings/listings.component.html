@@ -4,9 +4,9 @@
   <h1 class="text-3xl font-bold mb-6 text-center text-[#3A86FF]">
     Nos logements disponibles
   </h1>
-
+  <app-search-bar (search)="onSearch($event)"></app-search-bar>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    @for (listing of listings; track listing.id) {
+    @for (listing of filteredListings; track listing.id) {
     <div class="bg-white rounded-xl shadow-lg p-4 border border-[#E5E7EB]">
       @if (listing.firstPicture) {
       <img

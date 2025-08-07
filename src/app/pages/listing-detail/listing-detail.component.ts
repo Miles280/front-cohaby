@@ -89,4 +89,31 @@ export class ListingDetailsComponent implements OnInit {
       });
     }
   }
+
+  currentPictureIndex = 0;
+
+  showPreviousPicture(): void {
+    if (this.pictures && this.pictures.length > 0) {
+      this.currentPictureIndex =
+        (this.currentPictureIndex - 1 + this.pictures.length) %
+        this.pictures.length;
+    }
+  }
+
+  showNextPicture(): void {
+    if (this.pictures && this.pictures.length > 0) {
+      this.currentPictureIndex =
+        (this.currentPictureIndex + 1) % this.pictures.length;
+    }
+  }
+
+  isModalOpen = false;
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
 }

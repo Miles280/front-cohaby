@@ -1,59 +1,70 @@
 <section class="bg-white py-10 px-6 border-b">
-  <div class="max-w-6xl mx-auto">
-    <h1 class="text-4xl font-bold text-dark mb-2">{{ listing?.title }}</h1>
-    <p class="text-lg text-grayish mb-4">{{ listing?.description }}</p>
-    <div class="flex flex-wrap gap-4 text-lg text-primary font-semibold">
-      <p>Prix / nuit : {{ listing?.pricePerNight }} €</p>
-      <p>Capacité max : {{ listing?.maxCapacity }} personnes</p>
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-4xl font-bold text-dark mb-2">{{ listing?.title }}</h1>
+        <p class="text-lg text-grayish mb-4">{{ listing?.description }}</p>
+        <div class="flex flex-wrap gap-4 text-lg text-primary font-semibold">
+            <p>Prix / nuit : {{ listing?.pricePerNight }} €</p>
+            <p>Capacité max : {{ listing?.maxCapacity }} personnes</p>
+        </div>
     </div>
-  </div>
 </section>
-<section class="bg-light py-8 px-6">
-  <div
-    class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
-  >
-    <img
-      *ngFor="let pic of pictures"
-      [src]="pic.url"
-      alt="Photo logement"
-      class="rounded-xl shadow-md object-cover w-full h-60"
-    />
-  </div>
-</section>
+<!-- Image principale avec clic -->
+<img [src]="pictures[currentPictureIndex]?.url" alt="Photo logement" class="rounded-xl shadow-md object-cover w-full h-96 mx-auto transition-all duration-300 cursor-pointer" (click)="openModal()" />
+
+<!-- Boutons gauche/droite -->
+<div class="flex justify-center gap-4 mt-4">
+    <button (click)="showPreviousPicture()" class="text-2xl">←</button>
+    <button (click)="showNextPicture()" class="text-2xl">→</button>
+</div>
+
+<!-- @if pour la modale -->
+@if (isModalOpen) {
+<div class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center" (click)="closeModal()">
+    <div class="relative max-w-5xl w-full px-4" (click)="$event.stopPropagation()">
+        <img [src]="pictures[currentPictureIndex]?.url" alt="Image en grand" class="w-full max-h-[90vh] object-contain rounded-lg shadow-lg" />
+
+        <!-- Bouton de fermeture -->
+        <button (click)="closeModal()" class="absolute top-4 right-4 text-white text-3xl font-bold" aria-label="Fermer">
+      ✕
+    </button>
+    </div>
+</div>
+}
 <section class="bg-white py-14 px-6 border-t border-gray-200">
-  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
-    <div>
-      <h2 class="text-2xl font-bold text-primary mb-4">Services inclus</h2>
-      <ul class="space-y-3">
-        <li *ngFor="let service of services" class="flex items-start gap-2">
-          <mat-icon>{{ service.icon }}</mat-icon>
-          <div>
-            <p class="font-semibold text-dark">{{ service.name }}</p>
-            <p class="text-sm text-grayish">{{ service.description }}</p>
-          </div>
-        </li>
-      </ul>
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+        <div>
+            <h2 class="text-2xl font-bold text-primary mb-4">Services inclus</h2>
+            <ul class="space-y-3">
+                <li *ngFor="let service of services" class="flex items-start gap-2">
+                    <mat-icon>{{ service.icon }}</mat-icon>
+                    <div>
+                        <p class="font-semibold text-dark">{{ service.name }}</p>
+                        <p class="text-sm text-grayish">{{ service.description }}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <h2 class="text-2xl font-bold text-primary mb-4">Équipements</h2>
+            <ul class="space-y-3">
+                <li *ngFor="let equip of equipment" class="flex items-start gap-2">
+                    <mat-icon>{{ equip.icon }}</mat-icon>
+                    <div>
+                        <p class="font-semibold text-dark">{{ equip.name }}</p>
+                        <p class="text-sm text-grayish">{{ equip.description }}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div>
-      <h2 class="text-2xl font-bold text-primary mb-4">Équipements</h2>
-      <ul class="space-y-3">
-        <li *ngFor="let equip of equipment" class="flex items-start gap-2">
-          <mat-icon>{{ equip.icon }}</mat-icon>
-          <div>
-            <p class="font-semibold text-dark">{{ equip.name }}</p>
-            <p class="text-sm text-grayish">{{ equip.description }}</p>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
 </section>
 <section class="bg-light py-12 px-6 border-t">
-  <div class="max-w-6xl mx-auto text-dark">
-    <p class="mb-2">
-      <strong>Propriétaire :</strong> {{ owner?.firstname }}
-      {{ owner?.lastname }}
-    </p>
-    <p><strong>Adresse :</strong> {{ address?.street }}</p>
-  </div>
+    <div class="max-w-6xl mx-auto text-dark">
+        <p class="mb-2">
+            <strong>Propriétaire :</strong> {{ owner?.firstname }} {{ owner?.lastname }}
+        </p>
+        <p>
+            <strong>Adresse :</strong> {{ address?.street }}, {{ address?.city }} ( {{ address?.postalCode }} )
+        </p>
+    </div>
 </section>

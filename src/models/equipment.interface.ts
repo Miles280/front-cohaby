@@ -1,7 +1,7 @@
 export interface Equipment {
-  '@context'?: string;
-  '@id'?: string;
-  '@type'?: string;
+  '@context': string;
+  '@id': string;
+  '@type': string;
   id: number;
   name: string;
   description: string;
