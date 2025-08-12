@@ -1,0 +1,82 @@
+<div class="max-w-4xl mx-auto py-10 px-4">
+    @if (profileForm) {
+    <form [formGroup]="profileForm" (ngSubmit)="onSave()" class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label>Prénom</label>
+                <input type="text" formControlName="firstname" class="w-full border p-2 rounded" />
+            </div>
+
+            <div>
+                <label>Nom</label>
+                <input type="text" formControlName="lastname" class="w-full border p-2 rounded" />
+            </div>
+
+            <div>
+                <label>Pseudo</label>
+                <input type="text" formControlName="pseudo" class="w-full border p-2 rounded" />
+            </div>
+
+            <div>
+                <label>Genre</label>
+                <select formControlName="gender" class="w-full border p-2 rounded">
+          <option value="male">Homme</option>
+          <option value="female">Femme</option>
+          <option value="other">Autre</option>
+        </select>
+            </div>
+
+            <div>
+                <label>Date de naissance</label>
+                <input type="date" formControlName="birthdate" class="w-full border p-2 rounded" />
+            </div>
+
+            <div>
+                <label>Email</label>
+                <input type="email" formControlName="email" class="w-full border p-2 rounded" />
+            </div>
+
+            <h3 class="text-xl font-semibold mb-2 mt-6 col-span-2">Adresse</h3>
+
+            <div class="md:col-span-2">
+                <label class="block mb-1">Rue</label>
+                <input type="text" formControlName="street" class="w-full border rounded p-2" />
+            </div>
+
+            <div>
+                <label class="block mb-1">Ville</label>
+                <input type="text" formControlName="city" class="w-full border rounded p-2" />
+            </div>
+
+            <div>
+                <label class="block mb-1">Code postal</label>
+                <input type="text" formControlName="postalCode" class="w-full border rounded p-2" />
+            </div>
+
+            <div>
+                <label class="block mb-1">Région</label>
+                <input type="text" formControlName="region" class="w-full border rounded p-2" />
+            </div>
+
+            <div>
+                <label class="block mb-1">Pays</label>
+                <input type="text" formControlName="country" class="w-full border rounded p-2" />
+            </div>
+        </div>
+
+        <div class="mt-10 text-center">
+            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-xl">
+        Enregistrer
+      </button>
+
+            <button type="button" (click)="logout()" class="ml-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-xl">
+        Se déconnecter
+      </button>
+        </div>
+    </form>
+    } @else {
+    <div class="text-center text-gray-600 dark:text-gray-300">
+        Chargement du profil...
+    </div>
+    }
+</div>

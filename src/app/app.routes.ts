@@ -5,6 +5,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { AboutComponent } from './pages/about/about.component';
 import { ListingsComponent } from './pages/listings/listings.component';
 import { ListingDetailsComponent } from './pages/listing-detail/listing-detail.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'listings', component: ListingsComponent },
   { path: 'listing/:id', component: ListingDetailsComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: '**', redirectTo: '' }, // Route wildcard pour 404
 ];

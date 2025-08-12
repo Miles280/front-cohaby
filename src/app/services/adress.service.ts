@@ -26,4 +26,24 @@ export class AdressService {
       { headers }
     );
   }
+
+  updateAdress(
+    iri: string,
+    adressPayload: {
+      street: string;
+      city: string;
+      postalCode: string;
+      region: string;
+      country: string;
+      latitude?: number;
+      longitude?: number;
+    }
+  ): Observable<void> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/merge-patch+json',
+    });
+    return this.http.patch<void>(`${this.env.apiUrl}${iri}`, adressPayload, {
+      headers,
+    });
+  }
 }

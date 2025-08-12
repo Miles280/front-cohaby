@@ -1,6 +1,8 @@
+import { Adress } from './adress.interface';
+
 export interface User {
   '@context'?: string;
-  '@id'?: string;
+  '@id': string;
   '@type'?: string;
   id: number;
   email: string;
@@ -13,7 +15,7 @@ export interface User {
   inscriptionDate: string;
   gender: 'male' | 'female' | string;
   profilPicture: string;
-  adress: string;
+  adress: Adress | string;
   listings: string[];
   bookings: string[];
   messagesSent: string[];
