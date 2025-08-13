@@ -1,4 +1,4 @@
-export interface Adress {
+export interface address {
   '@context'?: string;
   '@id'?: string;
   '@type'?: string;

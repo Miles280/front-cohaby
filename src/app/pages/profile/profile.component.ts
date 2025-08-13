@@ -10,9 +10,9 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { address } from '../../../models/address.interface';
+import { AddressService } from '../../services/address.service';
 import { ApiService } from '../../services/api.service';
-import { Adress } from '../../../models/adress.interface';
-import { AdressService } from '../../services/adress.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,14 +23,14 @@ import { AdressService } from '../../services/adress.service';
 })
 export class ProfileComponent implements OnInit {
   user!: User;
-  adress!: Adress;
+  address!: address;
   profileForm!: FormGroup;
 
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private userService = inject(UserService);
+  private addressService = inject(AddressService);
   private apiService = inject(ApiService);
-  private adressService = inject(AdressService);
   private router = inject(Router);
 
   ngOnInit(): void {
@@ -38,9 +38,29 @@ export class ProfileComponent implements OnInit {
       if (!isLoggedIn) return;
 
       this.userService.getCurrentUser().subscribe({
-        next: (data) => {
-          this.user = data;
-          this.initForm(this.user);
+        next: (user) => {
+          this.user = user;
+          console.log(user);
+
+          if (typeof user.address === 'string') {
+            // Utiliser ApiService.getFromIri pour récupérer l'adresse complète
+            this.apiService.getFromIri<address>(user.address).subscribe({
+              next: (addr) => {
+                this.address = addr;
+                this.user.address = addr;
+                this.initForm(this.user);
+              },
+              error: () => {
+                console.error(
+                  "Erreur lors de la récupération de l'adresse complète"
+                );
+                this.initForm(this.user); // init quand même le formulaire
+              },
+            });
+          } else {
+            this.address = user.address;
+            this.initForm(this.user);
+          }
         },
         error: () => this.router.navigate(['/login']),
       });
@@ -48,12 +68,12 @@ export class ProfileComponent implements OnInit {
   }
 
   initForm(user: User) {
-    let adress = user.adress;
+    let address = user.address;
 
-    if (typeof adress === 'string') {
+    if (typeof address === 'string') {
       // Impossible d'accéder aux champs si c'est juste un IRI
       // Tu peux choisir de ne rien faire ou d'afficher une erreur
-      console.error("L'adresse est une IRI, pas un objet complet");
+      console.error("L'addresse est une IRI, pas un objet complet");
       return;
     }
 
@@ -65,31 +85,31 @@ export class ProfileComponent implements OnInit {
       birthdate: [user.birthdate?.split('T')[0], Validators.required], // format date
       email: [user.email, [Validators.required, Validators.email]],
 
-      // Champs adresse (user.adress peut être null)
-      street: [adress.street || '', Validators.required],
-      city: [adress.city || '', Validators.required],
-      postalCode: [adress.postalCode || '', Validators.required],
-      region: [adress.region || '', Validators.required],
-      country: [adress.country || '', Validators.required],
+      // Champs addresse (user.address peut être null)
+      street: [address.street || '', Validators.required],
+      city: [address.city || '', Validators.required],
+      postalCode: [address.postalCode || '', Validators.required],
+      region: [address.region || '', Validators.required],
+      country: [address.country || '', Validators.required],
     });
   }
 
   onSave() {
-    if (!this.profileForm.valid || !this.user || !this.user.adress) return;
+    if (!this.profileForm.valid || !this.user || !this.user.address) return;
 
-    let adress = this.user.adress;
+    let address = this.user.address;
 
-    if (typeof adress === 'string') {
+    if (typeof address === 'string') {
       // Impossible d'accéder aux champs si c'est juste un IRI
       // Tu peux choisir de ne rien faire ou d'afficher une erreur
-      console.error("L'adresse est une IRI, pas un objet complet");
+      console.error("L'addresse est une IRI, pas un objet complet");
       return;
     }
 
     const formValue = this.profileForm.value;
 
-    const updatedAdress = {
-      ...this.adress,
+    const updatedaddress = {
+      ...this.address,
       street: formValue.street,
       city: formValue.city,
       postalCode: formValue.postalCode,
@@ -97,9 +117,9 @@ export class ProfileComponent implements OnInit {
       country: formValue.country,
     };
 
-    // Mise à jour de l'adresse
-    this.adressService
-      .updateAdress(`/api/adresses/${adress.id}`, updatedAdress)
+    // Mise à jour de l'addresse
+    this.addressService
+      .updateaddress(`/api/addresses/${address.id}`, updatedaddress)
       .subscribe({
         next: () => {
           const updatedUser = {
@@ -109,7 +129,7 @@ export class ProfileComponent implements OnInit {
             gender: formValue.gender,
             birthdate: new Date(formValue.birthdate).toISOString(),
             email: formValue.email,
-            adress: `/api/adresses/${adress.id}`, // IRI, pas objet !
+            address: `/api/addresses/${address.id}`, // IRI, pas objet !
           };
           console.log(updatedUser);
           // Mise à jour du profil utilisateur
@@ -120,7 +140,7 @@ export class ProfileComponent implements OnInit {
               error: () => alert('Erreur lors de la mise à jour du profil'),
             });
         },
-        error: () => alert("Erreur lors de la mise à jour de l'adresse"),
+        error: () => alert("Erreur lors de la mise à jour de l'addresse"),
       });
   }
 

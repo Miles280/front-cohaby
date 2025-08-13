@@ -25,7 +25,7 @@ export class ListingService {
     let params = new HttpParams();
 
     if (filter.location) {
-      params = params.set('adress.city', filter.location);
+      params = params.set('address.city', filter.location);
     }
 
     if (filter.priceMax) {
@@ -44,5 +44,23 @@ export class ListingService {
 
     console.log("Params envoyés à l'API :", params.toString());
     return this.http.get(`${this.env.apiUrl}/api/listings`, { params });
+  }
+
+  createListing(listing: any): Observable<any> {
+    return this.http.post<any>(`${this.env.apiUrl}/api/listings`, listing, {
+      headers: { 'Content-Type': 'application/ld+json' }, // optionnel, HttpClient le fait souvent
+    });
+  }
+
+  updateListing(id: number, listing: any): Observable<any> {
+    return this.http.put<any>(`${this.env.apiUrl}/api/listings/${id}`, listing);
+  }
+
+  getServices(): Observable<any> {
+    return this.http.get<any>(`${this.env.apiUrl}/api/services`);
+  }
+
+  getEquipment(): Observable<any> {
+    return this.http.get<any>(`${this.env.apiUrl}/api/equipment`);
   }
 }

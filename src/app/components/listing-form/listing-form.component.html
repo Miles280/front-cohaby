@@ -1,0 +1,108 @@
+<form
+  [formGroup]="listingForm"
+  (ngSubmit)="onSubmit()"
+  class="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-md"
+>
+  <label for="title" class="block font-semibold mt-4 mb-1">Titre</label>
+  <input
+    id="title"
+    type="text"
+    formControlName="title"
+    placeholder="Titre de l'annonce"
+    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+  />
+
+  <label for="description" class="block font-semibold mt-4 mb-1"
+    >Description</label
+  >
+  <textarea
+    id="description"
+    formControlName="description"
+    placeholder="Description"
+    rows="4"
+    class="w-full border border-gray-300 rounded-md px-3 py-2 resize-y focus:outline-none focus:ring-2 focus:ring-teal-400"
+  ></textarea>
+
+  <label for="price" class="block font-semibold mt-4 mb-1">Prix (€)</label>
+  <input
+    id="price"
+    type="number"
+    formControlName="price"
+    min="0"
+    placeholder="Prix par nuit"
+    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+  />
+
+  <!-- Nouveau champ maxCapacity -->
+  <label for="maxCapacity" class="block font-semibold mt-4 mb-1"
+    >Capacité maximale</label
+  >
+  <input
+    id="maxCapacity"
+    type="number"
+    formControlName="maxCapacity"
+    min="1"
+    placeholder="Nombre maximum de personnes"
+    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+  />
+
+  <h3 class="font-semibold text-lg mt-6 mb-2">Adresse</h3>
+  <div formGroupName="address" class="flex gap-3">
+    <input
+      type="text"
+      placeholder="Rue"
+      formControlName="street"
+      class="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+    />
+    <input
+      type="text"
+      placeholder="Ville"
+      formControlName="city"
+      class="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+    />
+    <input
+      type="text"
+      placeholder="Code postal"
+      formControlName="postalCode"
+      class="w-24 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
+    />
+  </div>
+
+  <h3 class="font-semibold text-lg mt-6 mb-2">Services</h3>
+  <div class="flex flex-wrap gap-2">
+    @for (service of servicesList; track service['@id']) {
+    <button
+      type="button"
+      (click)="toggleSelection('services', service['@id'])"
+      [class.bg-teal-500]="isSelected('services', service['@id'])"
+      [class.text-white]="isSelected('services', service['@id'])"
+      class="border border-teal-500 rounded-full px-4 py-2 text-teal-600 hover:bg-teal-400 hover:text-white transition"
+    >
+      {{ service.name }}
+    </button>
+    }
+  </div>
+
+  <h3 class="font-semibold text-lg mt-6 mb-2">Équipements</h3>
+  <div class="flex flex-wrap gap-2">
+    @for (equip of equipmentList; track equip['@id']) {
+    <button
+      type="button"
+      (click)="toggleSelection('equipment', equip['@id'])"
+      [class.bg-teal-500]="isSelected('equipment', equip['@id'])"
+      [class.text-white]="isSelected('equipment', equip['@id'])"
+      class="border border-teal-500 rounded-full px-4 py-2 text-teal-600 hover:bg-teal-400 hover:text-white transition"
+    >
+      {{ equip.name }}
+    </button>
+    }
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="listingForm.invalid"
+    class="mt-8 w-full bg-teal-600 disabled:bg-gray-400 text-white font-bold py-3 rounded-md hover:bg-teal-700 transition"
+  >
+    Valider
+  </button>
+</form>

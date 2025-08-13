@@ -30,7 +30,7 @@ export class AuthService {
     email: string;
     password: string;
     roles: string[];
-    adress: string; // uri de l'adresse
+    address: string; // uri de l'addresse
   }): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/ld+json' });
     return this.http.post(`${this.env.apiUrl}/api/users`, payload, {

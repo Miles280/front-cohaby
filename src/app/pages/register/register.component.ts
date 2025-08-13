@@ -8,7 +8,7 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AdressService } from '../../services/adress.service';
+import { AddressService } from '../../services/address.service';
 
 @Component({
   selector: 'app-register',
@@ -20,10 +20,10 @@ import { AdressService } from '../../services/adress.service';
 export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
-  private adressService = inject(AdressService);
+  private addressService = inject(AddressService);
   private router = inject(Router);
 
-  private adressUri = '/api/adresses/204';
+  private addressUri = '/api/addresses/204';
 
   registerForm: FormGroup = this.fb.group({
     firstname: ['', Validators.required],
@@ -34,7 +34,7 @@ export class RegisterComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
     role: ['coliver', Validators.required],
-    // Champs adresse
+    // Champs addresse
     street: ['', Validators.required],
     city: ['', Validators.required],
     postalCode: ['', Validators.required],
@@ -50,9 +50,9 @@ export class RegisterComponent {
 
     const formValue = this.registerForm.value;
 
-    // Création de l'adresse d'abord
-    this.adressService
-      .createAdress({
+    // Création de l'addresse d'abord
+    this.addressService
+      .createaddress({
         street: formValue.street,
         city: formValue.city,
         postalCode: formValue.postalCode,
@@ -63,8 +63,8 @@ export class RegisterComponent {
         // latitude et longitude optionnels, tu peux les ajouter si tu as
       })
       .subscribe({
-        next: (adressCreated) => {
-          const adressUri = adressCreated['@id'];
+        next: (addressCreated) => {
+          const addressUri = addressCreated['@id'];
 
           const payload = {
             firstname: formValue.firstname,
@@ -76,12 +76,12 @@ export class RegisterComponent {
             password: formValue.password,
             roles:
               formValue.role === 'coliver' ? ['ROLE_USER'] : ['ROLE_OWNER'],
-            adress: adressUri,
+            address: addressUri,
           };
           console.log('Payload user:', payload);
 
           this.authService.register(payload).subscribe({
-            next: () => {
+            next: (userCreated) => {
               this.success = true;
               setTimeout(() => this.router.navigate(['/login']), 2000);
             },
@@ -94,7 +94,7 @@ export class RegisterComponent {
         },
         error: (err) => {
           this.error =
-            "Erreur lors de la création de l'adresse : " +
+            "Erreur lors de la création de l'addresse : " +
             (err.error?.message || err.message);
         },
       });

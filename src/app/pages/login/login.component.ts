@@ -43,13 +43,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     this.formSubmitted = true;
-    console.log(this.loginForm.value);
-
-    if (this.loginForm.invalid) {
-      console.log('Email errors:', this.loginForm.get('email')?.errors);
-      console.log('Password errors:', this.loginForm.get('password')?.errors);
-      return;
-    }
+    if (this.loginForm.invalid) return;
 
     this.isLoading = true;
     this.apiError = null;

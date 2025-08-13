@@ -1,0 +1,6 @@
+<h1>Modifier un Listing</h1>
+<app-listing-form
+  *ngIf="listing"
+  [initialData]="listing"
+  (formSubmit)="updateListing($event)"
+></app-listing-form>

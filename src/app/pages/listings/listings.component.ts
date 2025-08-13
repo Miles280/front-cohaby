@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ListingService } from '../../services/listing.service';
@@ -21,10 +21,8 @@ export class ListingsComponent implements OnInit {
   filteredListings: Listing[] = [];
   isLoading = true;
 
-  constructor(
-    private listingService: ListingService,
-    private apiService: ApiService
-  ) {}
+  private listingService = inject(ListingService);
+  private apiService = inject(ApiService);
 
   ngOnInit(): void {
     this.fetchListings();
@@ -34,6 +32,7 @@ export class ListingsComponent implements OnInit {
     this.listingService.getAllListings().subscribe({
       next: (data) => {
         this.listings = data;
+        console.log(this.listings);
         this.filteredListings = data;
 
         // Charger la première image pour chaque listing

@@ -39,8 +39,8 @@ export class ListingDetailsComponent implements OnInit {
             ? this.apiService.getFromIri(data.owner)
             : null;
 
-          const address$ = data.adress
-            ? this.apiService.getFromIri(data.adress)
+          const address$ = data.address
+            ? this.apiService.getFromIri(data.address)
             : null;
 
           const services$ = data.services?.length

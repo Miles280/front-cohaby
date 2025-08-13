@@ -15,5 +15,5 @@ export interface Listing {
   pictures: string[];
   firstPicture?: Picture;
   bookings: string[];
-  adress: string;
+  address: string;
 }

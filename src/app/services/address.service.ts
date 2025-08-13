@@ -6,11 +6,11 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class AdressService {
+export class AddressService {
   private env = environment;
   private http = inject(HttpClient);
 
-  createAdress(adressPayload: {
+  createaddress(addressPayload: {
     street: string;
     city: string;
     postalCode: string;
@@ -21,15 +21,15 @@ export class AdressService {
   }): Observable<{ '@id': string }> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/ld+json' });
     return this.http.post<{ '@id': string }>(
-      `${this.env.apiUrl}/api/adresses`,
-      adressPayload,
+      `${this.env.apiUrl}/api/addresses`,
+      addressPayload,
       { headers }
     );
   }
 
-  updateAdress(
+  updateaddress(
     iri: string,
-    adressPayload: {
+    addressPayload: {
       street: string;
       city: string;
       postalCode: string;
@@ -42,7 +42,7 @@ export class AdressService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/merge-patch+json',
     });
-    return this.http.patch<void>(`${this.env.apiUrl}${iri}`, adressPayload, {
+    return this.http.patch<void>(`${this.env.apiUrl}${iri}`, addressPayload, {
       headers,
     });
   }
