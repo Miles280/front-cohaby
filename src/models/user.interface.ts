@@ -1,24 +1,17 @@
-import { address } from './address.interface';
+import { Address } from './address.interface';
 
 export interface User {
-  '@context'?: string;
   '@id': string;
-  '@type'?: string;
+  '@type': string;
   id: number;
   email: string;
   roles: string[];
-  password: string;
   firstname: string;
   lastname: string;
   pseudo: string;
   birthdate: string;
   inscriptionDate: string;
-  gender: 'male' | 'female' | string;
+  gender: 'male' | 'female' | 'other';
   profilPicture: string;
-  address: address | string;
-  listings: string[];
-  bookings: string[];
-  messagesSent: string[];
-  messagesReceived: string[];
-  userIdentifier: string;
+  address: Address;
 }

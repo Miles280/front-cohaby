@@ -26,10 +26,8 @@ export class LoginComponent implements OnInit {
     password: ['', [Validators.required]],
   });
 
-  formSubmitted = false;
-  inputPWType = 'password';
   isLoading = false;
-  apiError: string | null = null;
+  error: string | null = null;
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn()) {
@@ -37,29 +35,28 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  togglePW(): void {
-    this.inputPWType = this.inputPWType === 'password' ? 'text' : 'password';
-  }
-
   onSubmit(): void {
-    this.formSubmitted = true;
     if (this.loginForm.invalid) return;
 
     this.isLoading = true;
-    this.apiError = null;
+    this.error = null;
 
     this.authService.login(this.loginForm.value).subscribe({
-      next: (res: any) => {
+      next: (res) => {
         this.authService.saveToken(res.token);
         this.loginForm.reset();
-        this.formSubmitted = false;
         this.isLoading = false;
         this.router.navigate(['/']);
       },
       error: (err) => {
-        this.apiError = err?.error?.message || 'Erreur lors de la connexion.';
+        this.error = 'Erreur lors de la connexion.';
         this.isLoading = false;
       },
     });
+  }
+
+  inputPWType = 'password';
+  togglePW(): void {
+    this.inputPWType = this.inputPWType === 'password' ? 'text' : 'password';
   }
 }

@@ -51,6 +51,11 @@ export class ListingFormComponent implements OnInit {
           this.initialData?.address?.postalCode || '',
           Validators.required,
         ],
+        region: [this.initialData?.address?.region || '', Validators.required],
+        country: [
+          this.initialData?.address?.country || '',
+          Validators.required,
+        ],
       }),
       services: [this.initialData?.services || []],
       equipment: [this.initialData?.equipment || []],
@@ -60,7 +65,7 @@ export class ListingFormComponent implements OnInit {
       this.servicesList = res['member'] || [];
     });
 
-    this.listingService.getEquipment().subscribe((res: any) => {
+    this.listingService.getEquipments().subscribe((res: any) => {
       this.equipmentList = res['member'] || [];
     });
   }

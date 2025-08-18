@@ -12,14 +12,18 @@ export class UserService {
   private env = environment;
 
   getCurrentUser(): Observable<User> {
-    return this.http.get<User>(`${this.env.apiUrl}/api/me`);
+    return this.http.get<User>(`${this.env.apiUrl}/me`);
   }
 
-  updateUser(userUri: string, data: Partial<User>) {
-    return this.http.patch<User>(`${this.env.apiUrl}${userUri}`, data, {
-      headers: {
-        'Content-Type': 'application/merge-patch+json',
-      },
+  /**
+   * Met à jour un utilisateur existant
+   * @param id - l'ID de l'utilisateur
+   * @param payload - l'objet utilisateur à mettre à jour
+   * @returns Observable<User>
+   */
+  updateUser(id: number, payload: any): Observable<User> {
+    return this.http.patch<User>(`${this.env.apiUrl}/users/${id}`, payload, {
+      headers: { 'Content-Type': 'application/merge-patch+json' },
     });
   }
 }

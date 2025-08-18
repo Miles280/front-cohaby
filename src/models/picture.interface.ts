@@ -4,6 +4,4 @@ export interface Picture {
   '@type'?: string;
   id: number;
   url: string;
-  sortOrder: number;
-  listing: string;
 }

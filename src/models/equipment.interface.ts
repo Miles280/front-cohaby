@@ -6,5 +6,4 @@ export interface Equipment {
   name: string;
   description: string;
   icon: string;
-  listings: string[];
 }

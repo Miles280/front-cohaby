@@ -8,6 +8,8 @@ import { ListingDetailsComponent } from './pages/listing-detail/listing-detail.c
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ListingCreateComponent } from './pages/listing-create/listing-create.component';
 import { ListingEditComponent } from './pages/listing-edit/listing-edit.component';
+import { MyListingsComponent } from './pages/my-listings/my-listings.component';
+import { MyBookingsComponent } from './pages/my-bookings/my-bookings.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,8 +18,12 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'listings', component: ListingsComponent },
+
+  { path: 'listing/new', component: ListingCreateComponent },
   { path: 'listing/:id', component: ListingDetailsComponent },
-  { path: 'listings/new', component: ListingCreateComponent },
-  { path: 'listings/:id/edit', component: ListingEditComponent },
+  { path: 'listing/:id/edit', component: ListingEditComponent },
+
+  { path: 'mylistings', component: MyListingsComponent },
+  { path: 'mybookings', component: MyBookingsComponent },
   { path: '**', redirectTo: '' }, // Route wildcard pour 404
 ];

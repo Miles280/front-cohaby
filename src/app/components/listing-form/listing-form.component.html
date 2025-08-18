@@ -1,108 +1,171 @@
 <form
   [formGroup]="listingForm"
   (ngSubmit)="onSubmit()"
-  class="max-w-xl mx-auto p-6 bg-white rounded-lg shadow-md"
+  class="max-w-3xl mx-auto p-8 bg-white rounded-xl shadow-lg space-y-8"
 >
-  <label for="title" class="block font-semibold mt-4 mb-1">Titre</label>
-  <input
-    id="title"
-    type="text"
-    formControlName="title"
-    placeholder="Titre de l'annonce"
-    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
-  />
+  <!-- TITRE PAGE -->
+  <h2 class="text-3xl font-bold text-gray-800 text-center">
+    Créer un nouveau listing
+  </h2>
 
-  <label for="description" class="block font-semibold mt-4 mb-1"
-    >Description</label
-  >
-  <textarea
-    id="description"
-    formControlName="description"
-    placeholder="Description"
-    rows="4"
-    class="w-full border border-gray-300 rounded-md px-3 py-2 resize-y focus:outline-none focus:ring-2 focus:ring-teal-400"
-  ></textarea>
+  <!-- SECTION : Informations générales -->
+  <section class="space-y-4">
+    <h3 class="text-2xl font-semibold text-primary border-b pb-2">
+      Informations générales
+    </h3>
 
-  <label for="price" class="block font-semibold mt-4 mb-1">Prix (€)</label>
-  <input
-    id="price"
-    type="number"
-    formControlName="price"
-    min="0"
-    placeholder="Prix par nuit"
-    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
-  />
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-col">
+        <label for="title" class="font-semibold">Titre</label>
+        <input
+          id="title"
+          type="text"
+          formControlName="title"
+          placeholder="Titre de l'annonce"
+          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-lg"
+        />
+      </div>
 
-  <!-- Nouveau champ maxCapacity -->
-  <label for="maxCapacity" class="block font-semibold mt-4 mb-1"
-    >Capacité maximale</label
-  >
-  <input
-    id="maxCapacity"
-    type="number"
-    formControlName="maxCapacity"
-    min="1"
-    placeholder="Nombre maximum de personnes"
-    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
-  />
+      <div class="flex flex-col">
+        <label for="description" class="font-semibold">Description</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          placeholder="Description"
+          rows="5"
+          class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-lg resize-y"
+        ></textarea>
+      </div>
 
-  <h3 class="font-semibold text-lg mt-6 mb-2">Adresse</h3>
-  <div formGroupName="address" class="flex gap-3">
-    <input
-      type="text"
-      placeholder="Rue"
-      formControlName="street"
-      class="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
-    />
-    <input
-      type="text"
-      placeholder="Ville"
-      formControlName="city"
-      class="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
-    />
-    <input
-      type="text"
-      placeholder="Code postal"
-      formControlName="postalCode"
-      class="w-24 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400"
-    />
-  </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col">
+          <label for="price" class="font-semibold">Prix (€ / nuit)</label>
+          <input
+            id="price"
+            type="number"
+            formControlName="price"
+            min="0"
+            placeholder="Prix par nuit"
+            class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-lg"
+          />
+        </div>
 
-  <h3 class="font-semibold text-lg mt-6 mb-2">Services</h3>
-  <div class="flex flex-wrap gap-2">
-    @for (service of servicesList; track service['@id']) {
+        <div class="flex flex-col">
+          <label for="maxCapacity" class="font-semibold"
+            >Capacité maximale</label
+          >
+          <input
+            id="maxCapacity"
+            type="number"
+            formControlName="maxCapacity"
+            min="1"
+            placeholder="Nombre de personnes"
+            class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-lg"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION : Adresse -->
+  <section class="space-y-4">
+    <h3 class="text-2xl font-semibold text-primary border-b pb-2">Adresse</h3>
+    <div formGroupName="address" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col md:col-span-2">
+        <label class="font-semibold">Rue</label>
+        <input
+          type="text"
+          formControlName="street"
+          class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400"
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-semibold">Ville</label>
+        <input
+          type="text"
+          formControlName="city"
+          class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400"
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-semibold">Code postal</label>
+        <input
+          type="text"
+          formControlName="postalCode"
+          class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400"
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-semibold">Région</label>
+        <input
+          type="text"
+          formControlName="region"
+          class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400"
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-semibold">Pays</label>
+        <input
+          type="text"
+          formControlName="country"
+          class="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION : Services -->
+  <section class="space-y-4">
+    <h3 class="text-2xl font-semibold text-primary border-b pb-2">
+      Services inclus
+    </h3>
+    <div class="flex flex-wrap gap-3">
+      @for (service of servicesList; track service['@id']) {
+      <button
+        type="button"
+        (click)="toggleSelection('services', service['@id'])"
+        [class.bg-teal-500]="isSelected('services', service['@id'])"
+        [class.text-white]="isSelected('services', service['@id'])"
+        class="border border-teal-500 rounded-full px-5 py-3 text-lg text-teal-600 hover:bg-teal-400 hover:text-white transition"
+      >
+        {{ service.name }}
+      </button>
+      }
+    </div>
+  </section>
+
+  <!-- SECTION : Équipements -->
+  <section class="space-y-4">
+    <h3 class="text-2xl font-semibold text-primary border-b pb-2">
+      Équipements
+    </h3>
+    <div class="flex flex-wrap gap-3">
+      @for (equip of equipmentList; track equip['@id']) {
+      <button
+        type="button"
+        (click)="toggleSelection('equipment', equip['@id'])"
+        [class.bg-teal-500]="isSelected('equipment', equip['@id'])"
+        [class.text-white]="isSelected('equipment', equip['@id'])"
+        class="border border-teal-500 rounded-full px-5 py-3 text-lg text-teal-600 hover:bg-teal-400 hover:text-white transition"
+      >
+        {{ equip.name }}
+      </button>
+      }
+    </div>
+  </section>
+
+  <!-- BOUTON SOUMISSION -->
+  <div class="text-center">
     <button
-      type="button"
-      (click)="toggleSelection('services', service['@id'])"
-      [class.bg-teal-500]="isSelected('services', service['@id'])"
-      [class.text-white]="isSelected('services', service['@id'])"
-      class="border border-teal-500 rounded-full px-4 py-2 text-teal-600 hover:bg-teal-400 hover:text-white transition"
+      type="submit"
+      [disabled]="listingForm.invalid"
+      class="mt-6 w-full md:w-1/2 bg-teal-600 disabled:bg-gray-400 text-white font-bold py-4 rounded-lg hover:bg-teal-700 transition"
     >
-      {{ service.name }}
+      Valider le listing
     </button>
-    }
   </div>
-
-  <h3 class="font-semibold text-lg mt-6 mb-2">Équipements</h3>
-  <div class="flex flex-wrap gap-2">
-    @for (equip of equipmentList; track equip['@id']) {
-    <button
-      type="button"
-      (click)="toggleSelection('equipment', equip['@id'])"
-      [class.bg-teal-500]="isSelected('equipment', equip['@id'])"
-      [class.text-white]="isSelected('equipment', equip['@id'])"
-      class="border border-teal-500 rounded-full px-4 py-2 text-teal-600 hover:bg-teal-400 hover:text-white transition"
-    >
-      {{ equip.name }}
-    </button>
-    }
-  </div>
-
-  <button
-    type="submit"
-    [disabled]="listingForm.invalid"
-    class="mt-8 w-full bg-teal-600 disabled:bg-gray-400 text-white font-bold py-3 rounded-md hover:bg-teal-700 transition"
-  >
-    Valider
-  </button>
 </form>

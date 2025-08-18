@@ -1,4 +1,8 @@
+import { Address } from './address.interface';
+import { Equipment } from './equipment.interface';
 import { Picture } from './picture.interface';
+import { Service } from './service.interface';
+import { User } from './user.interface';
 
 export interface Listing {
   '@context'?: string;
@@ -9,11 +13,9 @@ export interface Listing {
   description: string;
   pricePerNight: number;
   maxCapacity: number;
-  owner: string;
-  services: string[];
-  equipments: string[];
-  pictures: string[];
-  firstPicture?: Picture;
-  bookings: string[];
-  address: string;
+  owner: User;
+  services: Service[];
+  equipments: Equipment[];
+  pictures: Picture[];
+  address: Address;
 }

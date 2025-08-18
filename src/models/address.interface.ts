@@ -1,7 +1,6 @@
-export interface address {
-  '@context'?: string;
-  '@id'?: string;
-  '@type'?: string;
+export interface Address {
+  '@id': string;
+  '@type': string;
   id: number;
   street: string;
   city: string;
@@ -10,6 +9,4 @@ export interface address {
   country: string;
   latitude: number;
   longitude: number;
-  users: string[];
-  listings: string[];
 }

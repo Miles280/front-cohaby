@@ -1,9 +1,14 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ApiService } from '../../services/api.service';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Equipment } from '../../../models/equipment.interface';
 import { Service } from '../../../models/service.interface'; // à créer / ajuster si besoin
 import { CommonModule } from '@angular/common';
+import { ListingService } from '../../services/listing.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -15,7 +20,9 @@ import { CommonModule } from '@angular/common';
 export class SearchBarComponent implements OnInit {
   @Output() search: EventEmitter<any> = new EventEmitter();
 
-  searchForm: FormGroup;
+  private fb = inject(FormBuilder);
+  private listingService = inject(ListingService);
+
   showEquipments = false;
   availableEquipments: Equipment[] = [];
   selectedEquipments: string[] = [];
@@ -24,23 +31,20 @@ export class SearchBarComponent implements OnInit {
   availableServices: Service[] = [];
   selectedServices: string[] = [];
 
-  constructor(private fb: FormBuilder, private api: ApiService) {
-    this.searchForm = this.fb.group({
-      location: [''],
-      priceMax: [''],
-      maxCapacity: [''],
-    });
-  }
+  searchForm: FormGroup = this.fb.group({
+    city: [''],
+    maxPrice: [''],
+    maxCapacity: [''],
+  });
 
   ngOnInit() {
-    this.api.getAll('/api/equipment').subscribe({
+    this.listingService.getEquipments().subscribe({
       next: (data) => {
         this.availableEquipments = data['member'];
       },
     });
 
-    // Charger les services aussi
-    this.api.getAll('/api/services').subscribe({
+    this.listingService.getServices().subscribe({
       next: (data) => {
         this.availableServices = data['member'];
       },
@@ -107,7 +111,6 @@ export class SearchBarComponent implements OnInit {
         .filter((name) => name !== undefined),
     };
 
-    console.log('Recherche avec :', query);
     this.search.emit(query);
   }
 

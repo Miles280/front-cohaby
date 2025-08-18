@@ -13,12 +13,12 @@ export class ListingService {
 
   getAllListings(): Observable<Listing[]> {
     return this.http
-      .get<any>(`${this.env.apiUrl}/api/listings`)
+      .get<any>(`${this.env.apiUrl}/listings`)
       .pipe(map((response) => response['member']));
   }
 
   getListingById(id: number): Observable<Listing> {
-    return this.http.get<Listing>(`${this.env.apiUrl}/api/listings/${id}`);
+    return this.http.get<Listing>(`${this.env.apiUrl}/listings/${id}`);
   }
 
   getListingsWithFilter(filter: any): Observable<any> {
@@ -43,24 +43,24 @@ export class ListingService {
     }
 
     console.log("Params envoyés à l'API :", params.toString());
-    return this.http.get(`${this.env.apiUrl}/api/listings`, { params });
+    return this.http.get(`${this.env.apiUrl}/listings`, { params });
   }
 
   createListing(listing: any): Observable<any> {
-    return this.http.post<any>(`${this.env.apiUrl}/api/listings`, listing, {
+    return this.http.post<any>(`${this.env.apiUrl}/listings`, listing, {
       headers: { 'Content-Type': 'application/ld+json' }, // optionnel, HttpClient le fait souvent
     });
   }
 
   updateListing(id: number, listing: any): Observable<any> {
-    return this.http.put<any>(`${this.env.apiUrl}/api/listings/${id}`, listing);
+    return this.http.put<any>(`${this.env.apiUrl}/listings/${id}`, listing);
   }
 
   getServices(): Observable<any> {
-    return this.http.get<any>(`${this.env.apiUrl}/api/services`);
+    return this.http.get<any>(`${this.env.apiUrl}/services`);
   }
 
-  getEquipment(): Observable<any> {
-    return this.http.get<any>(`${this.env.apiUrl}/api/equipment`);
+  getEquipments(): Observable<any> {
+    return this.http.get<any>(`${this.env.apiUrl}/equipment`);
   }
 }
