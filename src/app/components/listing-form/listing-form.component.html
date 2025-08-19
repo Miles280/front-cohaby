@@ -4,9 +4,15 @@
   class="max-w-3xl mx-auto p-8 bg-white rounded-xl shadow-lg space-y-8"
 >
   <!-- TITRE PAGE -->
+  @if(initialData){
+  <h2 class="text-3xl font-bold text-gray-800 text-center">
+    Modifier un listing
+  </h2>
+  } @else {
   <h2 class="text-3xl font-bold text-gray-800 text-center">
     Créer un nouveau listing
   </h2>
+  }
 
   <!-- SECTION : Informations générales -->
   <section class="space-y-4">
@@ -39,11 +45,13 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="flex flex-col">
-          <label for="price" class="font-semibold">Prix (€ / nuit)</label>
+          <label for="pricePerNight" class="font-semibold"
+            >Prix (€ / nuit)</label
+          >
           <input
-            id="price"
+            id="pricePerNight"
             type="number"
-            formControlName="price"
+            formControlName="pricePerNight"
             min="0"
             placeholder="Prix par nuit"
             class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-400 text-lg"
@@ -144,12 +152,12 @@
       Équipements
     </h3>
     <div class="flex flex-wrap gap-3">
-      @for (equip of equipmentList; track equip['@id']) {
+      @for (equip of equipmentsList; track equip['@id']) {
       <button
         type="button"
-        (click)="toggleSelection('equipment', equip['@id'])"
-        [class.bg-teal-500]="isSelected('equipment', equip['@id'])"
-        [class.text-white]="isSelected('equipment', equip['@id'])"
+        (click)="toggleSelection('equipments', equip['@id'])"
+        [class.bg-teal-500]="isSelected('equipments', equip['@id'])"
+        [class.text-white]="isSelected('equipments', equip['@id'])"
         class="border border-teal-500 rounded-full px-5 py-3 text-lg text-teal-600 hover:bg-teal-400 hover:text-white transition"
       >
         {{ equip.name }}

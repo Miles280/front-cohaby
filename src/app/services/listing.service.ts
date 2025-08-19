@@ -52,8 +52,10 @@ export class ListingService {
     });
   }
 
-  updateListing(id: number, listing: any): Observable<any> {
-    return this.http.put<any>(`${this.env.apiUrl}/listings/${id}`, listing);
+  updateListing(id: number, payload: any): Observable<any> {
+    return this.http.patch<any>(`${this.env.apiUrl}/listings/${id}`, payload, {
+      headers: { 'Content-Type': 'application/merge-patch+json' },
+    });
   }
 
   getServices(): Observable<any> {

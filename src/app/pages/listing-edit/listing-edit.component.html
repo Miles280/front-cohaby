@@ -1,6 +1,8 @@
-<h1>Modifier un Listing</h1>
+@if(listing) {
 <app-listing-form
-  *ngIf="listing"
   [initialData]="listing"
   (formSubmit)="updateListing($event)"
 ></app-listing-form>
+} @else {
+<p>Chargement en cours...</p>
+}

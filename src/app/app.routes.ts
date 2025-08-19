@@ -20,10 +20,10 @@ export const routes: Routes = [
   { path: 'listings', component: ListingsComponent },
 
   { path: 'listing/new', component: ListingCreateComponent },
+  { path: 'listing/edit/:id', component: ListingEditComponent },
   { path: 'listing/:id', component: ListingDetailsComponent },
-  { path: 'listing/:id/edit', component: ListingEditComponent },
 
   { path: 'mylistings', component: MyListingsComponent },
   { path: 'mybookings', component: MyBookingsComponent },
-  { path: '**', redirectTo: '' }, // Route wildcard pour 404
+  { path: '**', redirectTo: '' },
 ];

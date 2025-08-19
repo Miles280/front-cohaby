@@ -24,10 +24,10 @@ export class ListingCreateComponent {
         const payload = {
           title: data.title,
           description: data.description,
-          pricePerNight: data.price,
+          pricePerNight: data.pricePerNight,
           maxCapacity: data.maxCapacity,
           services: data.services,
-          equipment: data.equipment,
+          equipments: data.equipments,
           owner: `/api/users/${user.id}`,
           address: {
             street: data.address.street,

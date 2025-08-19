@@ -1,10 +1,12 @@
 import {
   Component,
   EventEmitter,
-  inject,
   Input,
-  OnInit,
   Output,
+  inject,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -21,23 +23,46 @@ import { ListingService } from '../../services/listing.service';
   templateUrl: './listing-form.component.html',
   styleUrl: './listing-form.component.css',
 })
-export class ListingFormComponent implements OnInit {
+export class ListingFormComponent implements OnInit, OnChanges {
   @Input() initialData: any = null;
   @Output() formSubmit = new EventEmitter<any>();
 
   listingForm!: FormGroup;
   servicesList: any[] = [];
-  equipmentList: any[] = [];
+  equipmentsList: any[] = [];
 
   private fb = inject(FormBuilder);
   private listingService = inject(ListingService);
 
   ngOnInit(): void {
+    this.initForm();
+
+    this.listingService.getServices().subscribe((res: any) => {
+      this.servicesList = res['member'] || [];
+    });
+
+    this.listingService.getEquipments().subscribe((res: any) => {
+      this.equipmentsList = res['member'] || [];
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['initialData'] && this.listingForm) {
+      this.listingForm.patchValue({
+        ...this.initialData,
+        services: this.initialData?.services?.map((s: any) => s['@id']) || [],
+        equipments:
+          this.initialData?.equipments?.map((e: any) => e['@id']) || [],
+      });
+    }
+  }
+
+  private initForm(): void {
     this.listingForm = this.fb.group({
       title: [this.initialData?.title || '', Validators.required],
       description: [this.initialData?.description || '', Validators.required],
-      price: [
-        this.initialData?.price || '',
+      pricePerNight: [
+        this.initialData?.pricePerNight || '',
         [Validators.required, Validators.min(0)],
       ],
       maxCapacity: [
@@ -57,16 +82,10 @@ export class ListingFormComponent implements OnInit {
           Validators.required,
         ],
       }),
-      services: [this.initialData?.services || []],
-      equipment: [this.initialData?.equipment || []],
-    });
-
-    this.listingService.getServices().subscribe((res: any) => {
-      this.servicesList = res['member'] || [];
-    });
-
-    this.listingService.getEquipments().subscribe((res: any) => {
-      this.equipmentList = res['member'] || [];
+      services: [this.initialData?.services?.map((s: any) => s['@id']) || []],
+      equipments: [
+        this.initialData?.equipments?.map((e: any) => e['@id']) || [],
+      ],
     });
   }
 
@@ -76,7 +95,7 @@ export class ListingFormComponent implements OnInit {
     }
   }
 
-  toggleSelection(controlName: 'services' | 'equipment', id: string) {
+  toggleSelection(controlName: 'services' | 'equipments', id: string) {
     const current =
       (this.listingForm.get(controlName)?.value as string[]) || [];
     if (current.includes(id)) {
@@ -88,7 +107,7 @@ export class ListingFormComponent implements OnInit {
     }
   }
 
-  isSelected(controlName: 'services' | 'equipment', id: string): boolean {
+  isSelected(controlName: 'services' | 'equipments', id: string): boolean {
     const current =
       (this.listingForm.get(controlName)?.value as string[]) || [];
     return current.includes(id);
