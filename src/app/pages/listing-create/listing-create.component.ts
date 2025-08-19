@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ListingService } from '../../services/listing.service';
 import { Router } from '@angular/router';
 import { ListingFormComponent } from '../../components/listing-form/listing-form.component';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-listing-create',
@@ -11,10 +12,18 @@ import { UserService } from '../../services/user.service';
   templateUrl: './listing-create.component.html',
   styleUrl: './listing-create.component.css',
 })
-export class ListingCreateComponent {
+export class ListingCreateComponent implements OnInit {
+  private router = inject(Router);
   private listingService = inject(ListingService);
   private userService = inject(UserService);
-  private router = inject(Router);
+  private authService = inject(AuthService);
+
+  ngOnInit(): void {
+    const roles = this.authService.getRoles();
+    if (!roles.includes('ROLE_OWNER')) {
+      this.router.navigate(['/']);
+    }
+  }
 
   createListing(data: any) {
     console.log('Form data reçu :', data);

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ListingService } from '../../services/listing.service';
 import { ListingFormComponent } from '../../components/listing-form/listing-form.component';
 import { Listing } from '../../../models/listings.interface';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-listing-edit',
@@ -13,16 +14,31 @@ import { Listing } from '../../../models/listings.interface';
 })
 export class ListingEditComponent implements OnInit {
   listing!: Listing;
+  user: any;
 
+  private listingService = inject(ListingService);
+  private userService = inject(UserService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private listingService = inject(ListingService);
   private id = Number(this.route.snapshot.paramMap.get('id'));
 
   ngOnInit(): void {
-    this.listingService.getListingById(this.id).subscribe((data) => {
-      this.listing = data;
-      console.log(this.listing);
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => {
+        this.user = user;
+        this.listingService.getListingById(this.id).subscribe((listiing) => {
+          this.listing = listiing;
+          console.log(this.listing);
+
+          const isOwner = this.listing.owner.id === this.user.id;
+          const isAdmin = this.user.roles.includes('ROLE_ADMIN');
+
+          if (!isOwner && !isAdmin) {
+            // 🚫 Pas autorisé → redirection accueil
+            this.router.navigate(['/']);
+          }
+        });
+      },
     });
   }
 
