@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { Listing } from '../../models/listings.interface';
 import { environment } from '../../environments/environment';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ import { environment } from '../../environments/environment';
 export class ListingService {
   private http = inject(HttpClient);
   private env = environment;
+  private userService = inject(UserService);
 
   getAllListings(): Observable<Listing[]> {
     return this.http
@@ -64,5 +66,22 @@ export class ListingService {
 
   getEquipments(): Observable<any> {
     return this.http.get<any>(`${this.env.apiUrl}/equipment`);
+  }
+
+  getMyListings() {
+    return this.userService.getCurrentUser().pipe(
+      switchMap((user) =>
+        this.http
+          .get<any>(`${this.env.apiUrl}/listings?owner=/api/users/${user.id}`)
+          .pipe(
+            // Ici on extrait seulement `member`
+            map((res) => res['member'] as Listing[])
+          )
+      )
+    );
+  }
+
+  deleteListing(id: number) {
+    return this.http.delete(`${this.env.apiUrl}/listings/${id}`);
   }
 }
