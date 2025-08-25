@@ -16,11 +16,7 @@ export class MyListingsComponent implements OnInit {
   listings: Listing[] = [];
 
   ngOnInit(): void {
-    this.loadListings;
-    this.listingService.getMyListings().subscribe({
-      next: (res) => ((this.listings = res), console.log(res)),
-      error: (err) => console.error(err),
-    });
+    this.loadListings();
   }
 
   loadListings() {

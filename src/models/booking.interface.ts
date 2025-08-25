@@ -5,7 +5,7 @@ export interface Booking {
   id: number;
   beginningDate: string;
   totalNights: number;
-  status: 'pending' | 'confirmed' | 'cancelled';
+  status: 'pending' | 'accepted' | 'declined' | 'cancelled';
   nbrGuests: number;
   totalPrice: number;
   listing: string;
