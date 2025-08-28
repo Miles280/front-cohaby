@@ -10,6 +10,7 @@ import { ListingCreateComponent } from './pages/listing-create/listing-create.co
 import { ListingEditComponent } from './pages/listing-edit/listing-edit.component';
 import { MyListingsComponent } from './pages/my-listings/my-listings.component';
 import { MyBookingsComponent } from './pages/my-bookings/my-bookings.component';
+import { ListingBookingsComponent } from './pages/listing-bookings/listing-bookings.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -24,6 +25,8 @@ export const routes: Routes = [
   { path: 'listing/:id', component: ListingDetailsComponent },
 
   { path: 'mylistings', component: MyListingsComponent },
+  { path: 'mylistings/:id/bookings', component: ListingBookingsComponent },
+
   { path: 'mybookings', component: MyBookingsComponent },
   { path: '**', redirectTo: '' },
 ];

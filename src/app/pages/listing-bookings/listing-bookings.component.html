@@ -1,1 +1,67 @@
-<p>listing-bookings works!</p>
+<div class="p-6">
+  <h2 class="text-2xl font-bold mb-6">Réservations du listing</h2>
+
+  @if (bookings.length > 0) {
+  <div class="space-y-4">
+    @for (booking of bookings; track booking.id) {
+    <div
+      class="border p-4 rounded-lg shadow bg-white flex justify-between items-center"
+    >
+      <div>
+        <p class="text-lg font-semibold">Réservation #{{ booking.id }}</p>
+        <p>Client : {{ booking.user.lastname }} {{ booking.user.firstname }}</p>
+        <p>
+          Date début : {{ booking.beginningDate | date : "dd/MM/yyyy" }} | Nuits
+          : {{ booking.totalNights }}
+        </p>
+        <p>Prix total : {{ booking.totalPrice }} €</p>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <!-- Badge status -->
+        <span
+          class="px-3 py-1 rounded-full font-semibold capitalize"
+          [class.bg-green-100]="booking.status === 'accepted'"
+          [class.text-green-700]="booking.status === 'accepted'"
+          [class.bg-yellow-100]="booking.status === 'pending'"
+          [class.text-yellow-700]="booking.status === 'pending'"
+          [class.bg-red-100]="
+            booking.status === 'declined' || booking.status === 'cancelled'
+          "
+          [class.text-red-700]="
+            booking.status === 'declined' || booking.status === 'cancelled'
+          "
+        >
+          {{ booking.status }}
+        </span>
+
+        <!-- Boutons d'action -->
+        @if (booking.status === 'pending') {
+        <button
+          class="px-4 py-2 rounded bg-green-500 text-white hover:bg-green-600"
+          (click)="changeStatus(booking, 'accepted')"
+        >
+          Accepter
+        </button>
+        <button
+          class="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600"
+          (click)="changeStatus(booking, 'declined')"
+        >
+          Refuser
+        </button>
+        } @if (booking.status === 'accepted') {
+        <button
+          class="px-4 py-2 rounded bg-gray-500 text-white hover:bg-gray-600"
+          (click)="changeStatus(booking, 'cancelled')"
+        >
+          Annuler
+        </button>
+        }
+      </div>
+    </div>
+    }
+  </div>
+  } @else {
+  <p class="text-gray-500">Aucune réservation trouvée pour ce listing.</p>
+  }
+</div>

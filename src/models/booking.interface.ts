@@ -1,3 +1,5 @@
+import { User } from './user.interface';
+
 export interface Booking {
   '@context'?: string;
   '@id'?: string;
@@ -9,6 +11,6 @@ export interface Booking {
   nbrGuests: number;
   totalPrice: number;
   listing: string;
-  user: string;
+  user: User;
   comments: string[];
 }

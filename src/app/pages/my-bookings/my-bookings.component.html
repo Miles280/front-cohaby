@@ -12,12 +12,15 @@
     <div class="flex justify-between items-center">
       <div>
         <p class="font-semibold text-lg">Réservation n°{{ booking.id }}</p>
-        <p>Listing : {{ booking.listing }}</p>
         <p>Invités : {{ booking.nbrGuests }}</p>
         <p>Nuits : {{ booking.totalNights }}</p>
+        <a
+          class="text-blue-500 hover:underline"
+          [routerLink]="['/listing', getListingId(booking)]"
+          >Voir l'annonce</a
+        >
         <p class="text-sm text-gray-500">
-          Date de début :
-          {{ booking.beginningDate | date : "dd/MM/yyyy HH:mm" }}
+          Date de début : {{ booking.beginningDate | date : "dd/MM/yyyy" }}
         </p>
       </div>
       <div class="text-right">

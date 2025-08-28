@@ -32,4 +32,25 @@ export class BookingService {
       headers: { 'Content-Type': 'application/ld+json' },
     });
   }
+
+  getBookingsByListing(listingId: number) {
+    return this.http
+      .get<any>(
+        `${this.env.apiUrl}/bookings?listing=/api/listings/${listingId}`
+      )
+      .pipe(map((res) => res.member as Booking[]));
+  }
+
+  updateBookingStatus(
+    bookingId: number,
+    status: 'accepted' | 'declined' | 'cancelled'
+  ): Observable<Booking> {
+    return this.http.patch<any>(
+      `${this.env.apiUrl}/bookings/${bookingId}`,
+      { status },
+      {
+        headers: { 'Content-Type': 'application/merge-patch+json' },
+      }
+    );
+  }
 }
