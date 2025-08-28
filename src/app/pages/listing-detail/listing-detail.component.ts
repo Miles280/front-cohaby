@@ -1,34 +1,68 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Listing } from '../../../models/listings.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ListingService } from '../../services/listing.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../services/auth.service';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { BookingService } from '../../services/booking.service';
+import { UserService } from '../../services/user.service';
+import { User } from '../../../models/user.interface';
 
 @Component({
   selector: 'app-listing-detail',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, ReactiveFormsModule],
   templateUrl: './listing-detail.component.html',
   styleUrl: './listing-detail.component.css',
 })
 export class ListingDetailsComponent implements OnInit {
   listing!: Listing;
+  bookingForm!: FormGroup;
+  listingId!: string;
+  isLoggedIn = false;
+  currentUser!: User;
 
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private fb = inject(FormBuilder);
   private listingService = inject(ListingService);
+  private authService = inject(AuthService);
+  private bookingService = inject(BookingService);
+  private userService = inject(UserService);
 
   ngOnInit(): void {
+    this.authService.isLoggedIn$.subscribe((status) => {
+      this.isLoggedIn = status;
+    });
+
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => (this.currentUser = user),
+    });
+
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
       this.listingService.getListingById(id).subscribe({
         next: (data) => {
           console.log(data);
           this.listing = data;
+          this.listingId = this.route.snapshot.paramMap.get('id')!;
         },
         error: (err) => console.error('Erreur chargement listing', err),
       });
     }
+
+    this.bookingForm = this.fb.group({
+      beginningDate: ['', Validators.required],
+      totalNights: [1, [Validators.required, Validators.min(1)]],
+      nbrGuests: [1, [Validators.required, Validators.min(1)]],
+    });
   }
 
   currentPictureIndex = 0;
@@ -54,5 +88,25 @@ export class ListingDetailsComponent implements OnInit {
 
   closeModal() {
     this.isModalOpen = false;
+  }
+
+  onSubmit() {
+    if (this.bookingForm.invalid) return;
+
+    const payload = {
+      ...this.bookingForm.value,
+      status: 'pending',
+      listing: `/api/listings/${this.listingId}`, // ou IRI complet selon ton API
+      user: `/api/users/${this.currentUser.id}`,
+    };
+
+    console.log(`Payload envoyé :`, payload);
+    this.bookingService.createBooking(payload).subscribe({
+      next: () => {
+        console.log('Listing créé :', payload);
+        this.router.navigate(['/mybookings']);
+      },
+      error: (err) => console.log("Erreur pendant l'envoie à l'api :", err),
+    });
   }
 }

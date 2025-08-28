@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { UserService } from './user.service';
 import { environment } from '../../environments/environment';
-import { map, switchMap } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { Booking } from '../../models/booking.interface';
 
 @Injectable({
@@ -25,5 +25,11 @@ export class BookingService {
             .pipe(map((res) => res['member'] as Booking[]))
         )
       );
+  }
+
+  createBooking(booking: any): Observable<any> {
+    return this.http.post<any>(`${this.env.apiUrl}/bookings`, booking, {
+      headers: { 'Content-Type': 'application/ld+json' },
+    });
   }
 }
