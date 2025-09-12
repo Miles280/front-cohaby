@@ -26,6 +26,9 @@ listing.pictures[currentPictureIndex]) {
   <button (click)="showPreviousPicture()" class="text-2xl">←</button>
   <button (click)="showNextPicture()" class="text-2xl">→</button>
 </div>
+<button [routerLink]="['/messages']" [queryParams]="{ to: listing.owner.id }">
+  Contacter le propriétaire
+</button>
 
 <!-- Modale avec @if -->
 @if (isModalOpen && listing && listing.pictures && listing.pictures.length > 0

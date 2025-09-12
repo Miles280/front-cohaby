@@ -11,6 +11,7 @@ import { ListingEditComponent } from './pages/listing-edit/listing-edit.componen
 import { MyListingsComponent } from './pages/my-listings/my-listings.component';
 import { MyBookingsComponent } from './pages/my-bookings/my-bookings.component';
 import { ListingBookingsComponent } from './pages/listing-bookings/listing-bookings.component';
+import { MessagingComponent } from './pages/messaging/messaging.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'listings', component: ListingsComponent },
+  { path: 'messages', component: MessagingComponent },
 
   { path: 'listing/new', component: ListingCreateComponent },
   { path: 'listing/edit/:id', component: ListingEditComponent },

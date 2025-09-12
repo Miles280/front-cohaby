@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Listing } from '../../../models/listings.interface';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ListingService } from '../../services/listing.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +18,7 @@ import { User } from '../../../models/user.interface';
 @Component({
   selector: 'app-listing-detail',
   standalone: true,
-  imports: [CommonModule, MatIconModule, ReactiveFormsModule],
+  imports: [CommonModule, MatIconModule, ReactiveFormsModule, RouterLink],
   templateUrl: './listing-detail.component.html',
   styleUrl: './listing-detail.component.css',
 })

@@ -15,6 +15,10 @@ export class UserService {
     return this.http.get<User>(`${this.env.apiUrl}/me`);
   }
 
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${this.env.apiUrl}/users/${id}`);
+  }
+
   /**
    * Met à jour un utilisateur existant
    * @param id - l'ID de l'utilisateur

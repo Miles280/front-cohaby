@@ -50,7 +50,7 @@ export class ListingService {
 
   createListing(listing: any): Observable<any> {
     return this.http.post<any>(`${this.env.apiUrl}/listings`, listing, {
-      headers: { 'Content-Type': 'application/ld+json' }, // optionnel, HttpClient le fait souvent
+      headers: { 'Content-Type': 'application/ld+json' },
     });
   }
 

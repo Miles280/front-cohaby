@@ -1,0 +1,101 @@
+<div class="flex flex-col h-screen">
+  <!-- Si un destinataire est sélectionné -->
+  @if (receiver) {
+  <!-- Header avec bouton retour -->
+  <div
+    class="p-4 bg-gray-800 text-white shadow-md flex justify-between items-center"
+  >
+    <button
+      routerLink="/messages"
+      class="px-3 py-1 bg-gray-700 rounded hover:bg-gray-600 transition text-sm"
+    >
+      ← Retour
+    </button>
+    <h3 class="text-lg font-semibold">
+      {{ receiver.lastname }} {{ receiver.firstname }}
+    </h3>
+    <div></div>
+    <!-- placeholder pour équilibrer le flex -->
+  </div>
+
+  <!-- Zone des messages -->
+  <div class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-100">
+    @for (msg of messages; track msg.id) {
+    <!-- Message envoyé par le user connecté -->
+    @if (msg.sender.id === currentUserId) {
+    <div class="flex justify-end">
+      <div
+        class="max-w-2xl px-4 py-2 rounded-2xl shadow bg-blue-500 text-white"
+      >
+        <p class="text-sm">{{ msg.content }}</p>
+        <small class="block mt-1 text-xs opacity-70 text-right">
+          {{ msg.sendAt | date : "shortTime" }}
+        </small>
+      </div>
+    </div>
+    }
+    <!-- Message reçu -->
+    @else {
+    <div class="flex justify-start">
+      <div
+        class="max-w-2xl px-4 py-2 rounded-2xl shadow bg-white border text-gray-800"
+      >
+        <p class="text-sm">{{ msg.content }}</p>
+        <small class="block mt-1 text-xs opacity-70">
+          {{ msg.sendAt | date : "shortTime" }} - {{ msg.sender.pseudo }}
+        </small>
+      </div>
+    </div>
+    } }
+  </div>
+
+  <!-- Barre de saisie -->
+  <div class="flex items-center gap-2 p-4 border-t bg-white shadow-md">
+    <input
+      type="text"
+      [formControl]="messageControl"
+      placeholder="Écris un message..."
+      class="flex-1 rounded-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <button
+      type="button"
+      (click)="sendMessage()"
+      class="px-4 py-2 rounded-full bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
+    >
+      Envoyer
+    </button>
+  </div>
+  }
+
+  <!-- Liste des conversations si aucun destinataire -->
+  @else {
+  <div class="flex flex-col h-full">
+    <div class="p-4 bg-gray-800 text-white shadow-md">
+      <h3 class="text-lg font-semibold">Mes conversations</h3>
+    </div>
+    <div class="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-100">
+      @for (conv of conversations; track conv.senderId + '-' + conv.receiverId)
+      {
+      <div
+        (click)="selectConversation(conv)"
+        class="cursor-pointer p-3 rounded-lg hover:bg-gray-200 flex justify-between items-center border-b"
+      >
+        <div>
+          <p class="font-medium">
+            {{ conv.otherUser?.firstname }} {{ conv.otherUser?.lastname }}
+          </p>
+          <small class="text-gray-500">{{ conv.lastMessage?.content }}</small>
+        </div>
+        <small class="text-gray-400 text-xs">{{
+          conv.lastMessage?.sendAt | date : "shortTime"
+        }}</small>
+      </div>
+      } @empty {
+      <div class="text-center text-gray-500">
+        Aucune conversation disponible.
+      </div>
+      }
+    </div>
+  </div>
+  }
+</div>
