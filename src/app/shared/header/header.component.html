@@ -1,91 +1,84 @@
-<header
-  class="w-full py-3 px-6 bg-[#3A86FF] text-white shadow-md grid grid-cols-3 items-center"
->
-  <!-- Logo à gauche -->
-  <div class="flex items-center gap-2">
+<header class="w-full py-3 px-4 sm:px-6 bg-[#3A86FF] text-white shadow-md">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+    <!-- Logo -->
     <a routerLink="/" class="flex items-center gap-2">
       <img
         src="assets/logo-cohaby-blanc-sansfond.png"
         alt="Logo Cohaby"
-        class="h-20 w-auto cursor-pointer"
+        class="h-14 sm:h-20 w-auto cursor-pointer"
       />
     </a>
-  </div>
 
-  <!-- Titre centré -->
-  <div class="text-center leading-tight">
-    <a routerLink="/" class="block hover:underline">
-      <h1
-        class="text-2xl font-bold tracking-wide"
-        style="margin-bottom: 0 !important"
+    <!-- Titre -->
+    <div class="text-center sm:text-left leading-tight">
+      <a routerLink="/" class="block hover:underline">
+        <h1 class="text-xl sm:text-2xl font-bold tracking-wide">Cohaby</h1>
+      </a>
+      <p class="text-sm sm:text-base font-light">
+        Votre espace de coliving idéal
+      </p>
+    </div>
+
+    <!-- Menu utilisateur -->
+    <div class="flex items-center gap-3 relative">
+      <!-- Si non connecté -->
+      @if (!isLoggedIn) {
+      <a
+        routerLink="/login"
+        class="hover:underline font-medium text-sm sm:text-base"
       >
-        Cohaby
-      </h1>
-    </a>
-    <p class="text-base font-light">Votre espace de coliving idéal</p>
-  </div>
-
-  <!-- Menu utilisateur à droite -->
-  <div class="flex justify-end items-center gap-3 relative">
-    <!-- Si non connecté -->
-    @if (!isLoggedIn) {
-    <a routerLink="/login" class="hover:underline font-medium text-base"
-      >Se connecter</a
-    >
-    <a
-      routerLink="/register"
-      class="bg-white text-[#3A86FF] px-3 py-1 rounded-full font-semibold text-base hover:bg-gray-100 transition"
-    >
-      S’inscrire
-    </a>
-    }
-
-    <!-- Si connecté -->
-    @else {
-    <div class="relative">
-      <button
-        (click)="isMenuOpen = !isMenuOpen"
-        class="bg-white text-[#3A86FF] px-3 py-1 rounded-full font-semibold text-base hover:bg-gray-100 transition"
+        Se connecter
+      </a>
+      <a
+        routerLink="/register"
+        class="bg-white text-[#3A86FF] px-3 py-1 rounded-full font-semibold text-sm sm:text-base hover:bg-gray-100 transition"
       >
-        Mon compte
-      </button>
+        S’inscrire
+      </a>
+      }
 
-      <!-- Menu déroulant -->
-      @if (isMenuOpen) {
-      <div
-        class="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg p-2 z-50"
-      >
-        <a
-          routerLink="/profile"
-          class="block px-4 py-2 hover:bg-gray-100 rounded-md"
-        >
-          Profil
-        </a>
-
-        <a
-          routerLink="/mybookings"
-          class="block px-4 py-2 hover:bg-gray-100 rounded-md"
-        >
-          Mes réservations
-        </a>
-        @if (userRoles.includes('ROLE_OWNER')) {
-        <a
-          routerLink="/mylistings"
-          class="block px-4 py-2 hover:bg-gray-100 rounded-md"
-        >
-          Mes annonces
-        </a>
-        }
-
+      <!-- Si connecté -->
+      @else {
+      <div class="relative">
         <button
-          (click)="logout()"
-          class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-md"
+          (click)="isMenuOpen = !isMenuOpen"
+          class="bg-white text-[#3A86FF] px-3 py-1 rounded-full font-semibold text-sm sm:text-base hover:bg-gray-100 transition"
         >
-          Se déconnecter
+          Mon compte
         </button>
+
+        <!-- Menu déroulant -->
+        @if (isMenuOpen) {
+        <div
+          class="absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg p-2 z-50"
+        >
+          <a
+            routerLink="/profile"
+            class="block px-4 py-2 hover:bg-gray-100 rounded-md"
+            >Profil</a
+          >
+          <a
+            routerLink="/mybookings"
+            class="block px-4 py-2 hover:bg-gray-100 rounded-md"
+            >Mes réservations</a
+          >
+          @if (userRoles.includes('ROLE_OWNER')) {
+          <a
+            routerLink="/mylistings"
+            class="block px-4 py-2 hover:bg-gray-100 rounded-md"
+            >Mes annonces</a
+          >
+          }
+          <button
+            (click)="logout()"
+            class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-md"
+          >
+            Se déconnecter
+          </button>
+        </div>
+        }
       </div>
       }
     </div>
-    }
   </div>
 </header>
